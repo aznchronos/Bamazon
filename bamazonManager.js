@@ -12,6 +12,7 @@ var connection = mysql.createConnection({
 
 var data = [];
 var data2 = [];
+var departmentList = [];
 
 start();
 createTable();
@@ -52,7 +53,9 @@ function createTable() {
     connection.query("Select * from products", function (err, res) {
         
         for (var i = 0; i < res.length; i++) {
-            data.push({ id: res[i].item_id, desc: res[i].product_name, price: res[i].price, stock: res[i].stock_quantity });
+            data.push({ id: res[i].item_id, desc: res[i].product_name, price: res[i].price, stock: res[i].stock_quantity, department: res[i].department_name });
+            departmentList.push(res[i].department_name);
+            console.log("This is the department list: " +departmentList)
         }
     });
     return data;
@@ -169,8 +172,9 @@ function AddProduct(){
         },
         {
             name: "productDepartment",
-            type: "Input",
-            message: "Which department would this belong to?"
+            type: "list",
+            message: "Which department would this belong to?",
+            choices: departmentList
         },
         {
             name: "productPrice",
