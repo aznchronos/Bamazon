@@ -85,7 +85,9 @@ function search(){
                             ]).then(function(total){
                                 // console.log("this is the answer" + res.quantity)
                                 if(total.quantity > 0){
-                                    console.log(res);
+                                    // console.log("Price" + result[0].price);
+                                    // console.log("Amount" + total.quantity)
+                                    console.log("\nYour total comes to $" + ((result[0].price)*total.quantity).toFixed(2) + "\n");
                                     inquirer.prompt([
                                         {
                                             name: "dcheck",
@@ -97,12 +99,8 @@ function search(){
                                         if(res2.dcheck == "No"){
                                             console.log("Thanks for trying out our program. Have a nice day")
                                         } if(res2.dcheck == "Yes"){
-                                            console.log(res2.dcheck);
-                                            // inquirer.prompt([|
-                                            //     {
-                                            //         name
-                                            //     }
-                                            // ])
+
+                                            console.log()
                                         }
                                     })
                                 } else if(res.quantity == 0){
