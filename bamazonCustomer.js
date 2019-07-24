@@ -140,8 +140,8 @@ function search(){
                                                     viewTable();
                                                     setTimeout(function() {search()}, 1000);
                                                 } else if (final.more == "No"){
+                                                    console.log("Thanks for your time! Please come again")
                                                     connection.end()
-                                                    setTimeout(function() {console.log("Thanks for your time! Please come again")}, 5000);
                                                     }
                                                 })
                                             }
