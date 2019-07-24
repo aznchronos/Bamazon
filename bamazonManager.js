@@ -55,11 +55,12 @@ function createTable() {
         for (var i = 0; i < res.length; i++) {
             data.push({ id: res[i].item_id, desc: res[i].product_name, price: res[i].price, stock: res[i].stock_quantity, department: res[i].department_name });
             departmentList.push(res[i].department_name);
-            console.log("This is the department list: " +departmentList)
+            // console.log("This is the department list: " +departmentList)
         }
     });
     return data;
 };
+
 function createLowTable() {
     data2.splice(0, data2.length);
     connection.query("Select * from products where stock_quantity < 30", function (err, res) {
@@ -117,7 +118,9 @@ function AddToInventory(){
             message: "How many are you planning to add?"
         }
     ]).then(function(inv){
-        var temp = ((inv.value)-1);
+        // console.log("This is the inv" + inv.value);
+        var temp = ((inv.choice) - 1);
+        // console.log("This is the temp" + temp);
         inquirer.prompt([
             {  
                 name: "check",
@@ -197,12 +200,13 @@ function AddProduct(){
         ]).then(function(check1){
             if(check1.check == "Yes"){
                 connection.query(
-                    "Insert Into Products set ?",
+                    "Insert Into products set ?",
                     {
                         product_name: prod.productName,
                         department_name: prod.productDepartment,
                         price: prod.productPrice,
-                        stock_quantity: prod.productAmount
+                        stock_quantity: prod.productAmount,
+                        product_sales: 0
                     }
                 )
                 createTable();

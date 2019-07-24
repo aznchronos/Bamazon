@@ -33,6 +33,8 @@ select * from products;
 alter table products
 add column product_sales int not null After stock_quantity;
 
+select * from departments;
+
 create table departments (
 	department_id int not null auto_increment,
     department_name varchar(50) null,
