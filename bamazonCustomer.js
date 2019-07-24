@@ -111,25 +111,25 @@ function search(){
                                                         item_id: result[0].item_id
                                                     }
                                                 ]
-                                            ).then(function(err, end){
-                                                inquirer.prompt([
-                                                    {
-                                                        name: "more",
-                                                        type: "list",
-                                                        message: "Would you like to purchase more items?",
-                                                        choices: ["Yes", "No"]
-                                                    }
-                                                ]).then(function(final){
-                                                    if(final.more == "Yes"){
-                                                        start();
-                                                    } else if (final.more == "No"){
-                                                        console.log("Thanks fo your purchase! Please come again")
-                                                        connection.end()
+                                            );
+                                            inquirer.prompt([
+                                                {
+                                                    name: "more",
+                                                    type: "list",
+                                                    message: "\nWould you like to purchase more items?",
+                                                    choices: ["Yes", "No"]
+                                                }
+                                            ]).then(function(final){
+                                                if(final.more == "Yes"){
+                                                    start();
+                                                } else if (final.more == "No"){
+                                                    console.log("Thanks fo your purchase! Please come again")
+                                                    connection.end()
                                                     }
                                                 })
-                                            })
+                                            }
                                         }
-                                    })
+                                    )
                                 } else if(res.quantity == 0){
                                     console.log("I see you decided not to make a purchase. Please try our services again if you wish to make a purchase.");
                                     connection.end();
