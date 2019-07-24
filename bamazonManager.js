@@ -145,7 +145,7 @@ function AddToInventory(){
                 )
                 createTable();
                 setTimeout(function () { viewTable() }, 1000);
-                inquirer.prompt([
+                setTimeout(function() {inquirer.prompt([
                     {
                         name: "continue",
                         type: "list",
@@ -159,6 +159,7 @@ function AddToInventory(){
                         MainMenu();
                     }
                 })
+                }, 1500);
             } else if(pass.check == "No"){
                 AddToInventory();
             }
