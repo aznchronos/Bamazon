@@ -116,6 +116,7 @@ function search() {
                                             })
                                         } if (res2.dcheck == "Yes") {
                                             var newstock = (result[0].stock_quantity - total.quantity);
+                                            var newSales = (result[0].product_sales + (((result[0].price) * total.quantity).toFixed(2)));
                                             if (newstock > 0) {
                                                 var newstock = (result[0].stock_quantity - total.quantity);
                                                 // console.log("current stock total " + result[0].stock_quantity)
@@ -130,6 +131,16 @@ function search() {
                                                         }
                                                     ]
                                                 );
+                                                connection.query("Update products set ? where ?",
+                                                    [
+                                                        {
+                                                            product_sales: newSales
+                                                        },
+                                                        {
+                                                            item_id: result[0].item_id
+                                                        }
+                                                    ]
+                                                )
                                                 inquirer.prompt([
                                                     {
                                                         name: "more",

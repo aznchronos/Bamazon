@@ -30,9 +30,15 @@ values
 
 select * from products;
 
-select * from products
-where stock_quantity < 30;
+alter table products
+add column product_sales int not null After stock_quantity;
 
-update products
-set product_name = "1lbs Potatoes"
-where "Potatoes 1lbs";
+create table departments (
+	department_id int not null auto_increment,
+    department_name varchar(50) null,
+    over_head_costs float(14,2) not null,
+    primary key (department_id)
+)
+
+-- select * from products
+-- where stock_quantity < 30;
