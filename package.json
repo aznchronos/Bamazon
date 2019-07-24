@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/aznchronos/Bamazon#readme",
   "dependencies": {
+    "easy-table": "^1.1.1",
     "inquirer": "^6.5.0",
     "mysql": "^2.17.1"
   }

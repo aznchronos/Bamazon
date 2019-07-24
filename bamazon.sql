@@ -29,3 +29,7 @@ values
 (12, "Bastlevania: The Remake", "Video Games", 29.99, 69);
 
 select * from products;
+
+update products
+set product_name = "1lbs Potatoes"
+where "Potatoes 1lbs";
