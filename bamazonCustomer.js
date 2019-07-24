@@ -99,8 +99,35 @@ function search(){
                                         if(res2.dcheck == "No"){
                                             console.log("Thanks for trying out our program. Have a nice day")
                                         } if(res2.dcheck == "Yes"){
-
-                                            console.log()
+                                            var newstock = (result[0].stock_quantity - total.quantity);
+                                            // console.log("current stock total " + result[0].stock_quantity)
+                                            console.log("Stock Left: " + newstock);
+                                            connection.query("Update products set ? where ?",
+                                                [
+                                                    {
+                                                        stock_quantity: newstock
+                                                    },
+                                                    {
+                                                        item_id: result[0].item_id
+                                                    }
+                                                ]
+                                            ).then(function(err, end){
+                                                inquirer.prompt([
+                                                    {
+                                                        name: "more",
+                                                        type: "list",
+                                                        message: "Would you like to purchase more items?",
+                                                        choices: ["Yes", "No"]
+                                                    }
+                                                ]).then(function(final){
+                                                    if(final.more == "Yes"){
+                                                        start();
+                                                    } else if (final.more == "No"){
+                                                        console.log("Thanks fo your purchase! Please come again")
+                                                        connection.end()
+                                                    }
+                                                })
+                                            })
                                         }
                                     })
                                 } else if(res.quantity == 0){
