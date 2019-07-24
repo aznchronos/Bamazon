@@ -13,9 +13,10 @@ var connection = mysql.createConnection({
 var data = [];
 
 start();
+stock();
 
 function start(){
-    stock();
+    viewTable();
     setTimeout(function() {action()}, 1000);
 };
 
@@ -97,7 +98,22 @@ function search(){
                                         }
                                     ]).then(function(res2){
                                         if(res2.dcheck == "No"){
-                                            console.log("Thanks for trying out our program. Have a nice day")
+                                            inquirer.prompt([
+                                                {
+                                                    name: "continue",
+                                                    type: "list",
+                                                    message: "\nWould you like to start over?",
+                                                    choices: ["Yes", "No"]
+                                                }
+                                            ]).then(function(dcheck2){
+                                                if(dcheck2.continue == "Yes"){
+                                                    viewTable();
+                                                    setTimeout(function() {search()}, 1000);
+                                                } else if (dcheck2.continue == "No"){
+                                                    console.log("Thanks for your time! Please come again")
+                                                    connection.end()
+                                                    }
+                                                })
                                         } if(res2.dcheck == "Yes"){
                                             var newstock = (result[0].stock_quantity - total.quantity);
                                             // console.log("current stock total " + result[0].stock_quantity)
@@ -121,10 +137,11 @@ function search(){
                                                 }
                                             ]).then(function(final){
                                                 if(final.more == "Yes"){
-                                                    start();
+                                                    viewTable();
+                                                    setTimeout(function() {search()}, 1000);
                                                 } else if (final.more == "No"){
-                                                    console.log("Thanks fo your purchase! Please come again")
                                                     connection.end()
+                                                    setTimeout(function() {console.log("Thanks for your time! Please come again")}, 5000);
                                                     }
                                                 })
                                             }
@@ -139,8 +156,8 @@ function search(){
                                 }
                             })
                         } else if (res.check == "No"){
-                            start();
-                            search();
+                            viewTable();
+                            setTimeout(function() {search()}, 1000);
                         }
                     })
                 }
@@ -154,21 +171,27 @@ function search(){
 // }
 
 function stock(){
-    process.stdout.write('\033c')
     connection.query("Select * from products", function (err, res){
         for(var i = 0; i< res.length; i++){
             data.push({id: res[i].item_id, desc: res[i].product_name, price: res[i].price});
         }
-        // console.log(data);
-        var t = new Table;
-
-        data.forEach(function(product){
-            t.cell('Product ID', product.id)
-            t.cell('Description', product.desc)
-            t.cell('Price, USD', product.price, Table.number(2))
-            t.newRow()
-        });
-
-        console.log(t.toString());
+        viewTable();
     });
+    return data;
 };
+
+function viewTable(){
+    process.stdout.write('\033c')
+    var t = new Table;
+
+    data.forEach(function(product){
+        t.cell('Product ID', product.id)
+        t.cell('Description', product.desc)
+        t.cell('Price, USD', product.price, Table.number(2))
+        t.newRow()
+    });
+
+    console.log(t.toString());
+    console.log("================================================================")
+
+}
