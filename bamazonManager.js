@@ -14,14 +14,16 @@ var data = [];
 var data2 = [];
 var departmentList = [];
 
+process.stdout.write('\033c')
+console.log("Hello Mr. Manager");
+
 start();
 createTable();
 createLowTable();
 
-console.log("Hello Mr. Manager");
 
 function start() {
-    process.stdout.write('\033c')
+    
     inquirer.prompt([
         {
             name: "menu",
