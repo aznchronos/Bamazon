@@ -11,17 +11,17 @@ var connection = mysql.createConnection({
 });
 
 var data = [];
-
 start();
 stock();
 
 function start() {
     viewTable();
-    setTimeout(function () { action() }, 1000);
+    setTimeout(function () { action() }, 2000);
+    setTimeout(function() {error()}, 1000);
 };
 
 function action() {
-    console.log("Would you like to Purchase an item from our store?");
+    console.log("\nWould you like to Purchase an item from our store?");
     inquirer.prompt([
         {
             name: "action",
@@ -39,13 +39,7 @@ function action() {
 };
 
 function search() {
-    inquirer.prompt([
-        {
-            name: "id",
-            type: "number",
-            message: "Please input the ID of the item that you wish to purchase"
-        }
-    ]).then(function (res) {
+    askforID().then(function (res) {
         connection.query(
             "Select * from products where ?",
             {
@@ -56,6 +50,7 @@ function search() {
                 // console.log("This was the response " + res);
                 if (result === null) {
                     console.log("There was an error in this program");
+                    error();
                     connection.end();
                 } else {
                     console.log("\n")
@@ -71,19 +66,7 @@ function search() {
                         }
                     ]).then(function (res) {
                         if (res.check == "Yes") {
-                            inquirer.prompt([
-                                {
-                                    name: "quantity",
-                                    type: "number",
-                                    message: "How many would you like to purchase?",
-                                    // validate: function(value) {
-                                    //     if(isNaN(value) === false) {
-                                    //         return true;
-                                    //     }
-                                    //     return false;
-                                    // }
-                                }
-                            ]).then(function (total) {
+                            askForQuantity().then(function (total) {
                                 // console.log("this is the answer" + res.quantity)
                                 if (total.quantity > 0) {
                                     // console.log("Price" + result[0].price);
@@ -227,4 +210,70 @@ function viewTable() {
     console.log(t.toString());
     console.log("================================================================")
 
+}
+
+function error(){
+    var mess = [`\n░▄▀▄▀▀▀▀▄▀▄░░░░░░░░░
+░█░░░░░░░░▀▄░░░░░░▄░
+█░░▀░░▀░░░░░▀▄▄░░█░█
+█░▄░█▀░▄░░░░░░░▀▀░░█
+█░░▀▀▀▀░░░░░░░░░░░░█
+█░░░░░░░░░░░░░░░░░░█
+█░░░░░░░░░░░░░░░░░░█
+░█░░▄▄░░▄▄▄▄░░▄▄░░█░
+░█░▄▀█░▄▀░░█░▄▀█░▄▀░
+░░▀░░░▀░░░░░▀░░░▀░░░`, `\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░░░░░░░░░░░░▄▄▄▄▄▄▄░░░░░░░░░
+░░░░░░░░░▄▀▀▀░░░░░░░▀▄░░░░░░░
+░░░░░░░▄▀░░░░░░░░░░░░▀▄░░░░░░
+░░░░░░▄▀░░░░░░░░░░▄▀▀▄▀▄░░░░░
+░░░░▄▀░░░░░░░░░░▄▀░░██▄▀▄░░░░
+░░░▄▀░░▄▀▀▀▄░░░░█░░░▀▀░█▀▄░░░
+░░░█░░█▄▄░░░█░░░▀▄░░░░░▐░█░░░
+░░▐▌░░█▀▀░░▄▀░░░░░▀▄▄▄▄▀░░█░░
+░░▐▌░░█░░░▄▀░░░░░░░░░░░░░░█░░
+░░▐▌░░░▀▀▀░░░░░░░░░░░░░░░░▐▌░
+░░▐▌░░░░░░░░░░░░░░░▄░░░░░░▐▌░
+░░▐▌░░░░░░░░░▄░░░░░█░░░░░░▐▌░
+░░░█░░░░░░░░░▀█▄░░▄█░░░░░░▐▌░
+░░░▐▌░░░░░░░░░░▀▀▀▀░░░░░░░▐▌░
+░░░░█░░░░░░░░░░░░░░░░░░░░░█░░
+░░░░▐▌▀▄░░░░░░░░░░░░░░░░░▐▌░░
+░░░░░█░░▀░░░░░░░░░░░░░░░░▀░░░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`, `\n░░░░░▄▄▀▀▀▀▀▀▀▀▀▄▄░░░░░
+░░░░█░░░░░░░░░░░░░█░░░░
+░░░█░░░░░░░░░░▄▄▄░░█░░░
+░░░█░░▄▄▄░░▄░░███░░█░░░
+░░░▄█░▄░░░▀▀▀░░░▄░█▄░░░
+░░░█░░▀█▀█▀█▀█▀█▀░░█░░░
+░░░▄██▄▄▀▀▀▀▀▀▀▄▄██▄░░░
+░▄█░█▀▀█▀▀▀█▀▀▀█▀▀█░█▄░`];
+    var temp = Math.floor(Math.random()*3);
+    console.log(mess[temp]);
+}
+
+function askForQuantity() {
+    return inquirer.prompt([
+        {
+            name: "quantity",
+            type: "input",
+            message: "How many would you like to purchase?",
+            validate: function(value) {
+                return !isNaN(value) || 'Invalid value please try again'
+            },
+        }
+    ])
+}
+
+function askforID(){
+    return inquirer.prompt([
+        {
+            name: "id",
+            type: "input",
+            message: "Please input the ID of the item that you wish to purchase",
+            validate: function(value) {
+                return !isNaN(value) || 'Invalid value please try again'
+            }
+        }
+    ])
 }
