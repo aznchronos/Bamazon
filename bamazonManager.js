@@ -111,13 +111,25 @@ function AddToInventory(){
     inquirer.prompt([
         {
             name: "choice",
-            type: "number",
-            message: "Which item are you adding to? (Enter Product ID)"
+            type: "input",
+            message: "Which item are you adding to? (Enter Product ID)",
+            validate: function(value) {
+                return !isNaN(value) || 'Invalid value please try again'
+            },
+            validate: function(verify){
+                return verify !== "" || "Enter an id please"
+            }
         },
         {
             name: "value",
-            type: "number",
-            message: "How many are you planning to add?"
+            type: "input",
+            message: "How many are you planning to add?",
+            validate: function(value) {
+                return !isNaN(value) || 'Invalid value please try again'
+            },
+            validate: function(verify){
+                return verify !== "" || "Enter a value please"
+            }
         }
     ]).then(function(inv){
         // console.log("This is the inv" + inv.value);
@@ -174,7 +186,10 @@ function AddProduct(){
         {
             name: "productName",
             type: "input",
-            message: "What would you like to add? (Name of Product)"
+            message: "What would you like to add? (Name of Product)",
+            validate: function(verify){
+                return verify !== "" || "Enter the name of the product please"
+            }
         },
         {
             name: "productDepartment",
@@ -184,13 +199,25 @@ function AddProduct(){
         },
         {
             name: "productPrice",
-            type: "number",
-            message: "How much will you sell them for?"
+            type: "input",
+            message: "How much will you sell them for?",
+            validate: function(value) {
+                return !isNaN(value) || 'Invalid value please try again'
+            },
+            validate: function(verify){
+                return verify !== "" || "Enter a price please"
+            }
         },
         {
             name: "productAmount",
-            type: "number",
-            message: "How many will you stock?"
+            type: "input",
+            message: "How many will you stock?",
+            validate: function(value) {
+                return !isNaN(value) || 'Invalid value please try again'
+            },
+            validate: function(verify){
+                return verify !== "" || "Enter a value please"
+            }
         }
     ]).then(function (prod) {
         inquirer.prompt([
