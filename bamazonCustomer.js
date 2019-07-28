@@ -261,6 +261,9 @@ function askForQuantity() {
             validate: function(value) {
                 return !isNaN(value) || 'Invalid value please try again'
             },
+            validate: function(verify){
+                return verify !== "" || "Enter an value please"
+            }
         }
     ])
 }
@@ -273,6 +276,9 @@ function askforID(){
             message: "Please input the ID of the item that you wish to purchase",
             validate: function(value) {
                 return !isNaN(value) || 'Invalid value please try again'
+            },
+            validate: function(verify){
+                return verify !== "" || "Enter a value please"
             }
         }
     ])
