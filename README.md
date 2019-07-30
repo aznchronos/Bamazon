@@ -17,9 +17,15 @@ This is an imaginary app that was made to display a virtual store and prompts us
 3.  After all the prompts regarding the item, item price, and how many items the user requested, the console will spit out the total retail price of said item.
 ![samplePrice](/assets/images/price.PNG)
 
-#### DEMO:
+#### DEMO of BamazonCustomer:
 
 ![sampleDemo](/assets/images/demo.gif)
+
+#### DEMO of BamazonManager:
+
+BamazonManager allows a new set of commands that allow the user to add more products/stock into the MySQL DataBase
+
+![sampleManDemo](/assets/images/ManagerDemo.gif)
 
 #### Uses:
 * Node.JS
